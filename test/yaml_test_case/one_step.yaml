@@ -1,0 +1,25 @@
+game:
+    current_turn: black
+actions:
+    -   type: move
+        steps:
+            -   from_pos: [ 2,0 ]
+                to_pos: [ 3,1 ]
+
+    -   type: check_position
+        positions:
+            -   position: [ 0,0 ]
+                piece: "B"
+            -   position: [ 3,1 ]
+                piece: "B"
+
+    -   type: check_board
+        excepted:
+            - [ "B", "_", "B", "_", "B", "_", "B", "_" ]
+            - [ "_", "B", "_", "B", "_", "B", "_", "B" ]
+            - [ "_", "_", "B", "_", "B", "_", "B", "_" ]
+            - [ "_", "B", "_", "_", "_", "_", "_", "_" ]
+            - [ "_", "_", "_", "_", "_", "_", "_", "_" ]
+            - [ "_", "W", "_", "W", "_", "W", "_", "W" ]
+            - [ "W", "_", "W", "_", "W", "_", "W", "_" ]
+            - [ "_", "W", "_", "W", "_", "W", "_", "W" ]

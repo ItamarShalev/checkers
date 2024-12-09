@@ -1,0 +1,8 @@
+game:
+    current_turn: black
+actions:
+    -   type: move
+        steps:
+            -   from_pos: [ 2,0 ]
+                to_pos: [ 4,2 ]
+        error: invalid_move

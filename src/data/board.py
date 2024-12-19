@@ -6,7 +6,7 @@ from src.data.enums import PieceSymbol, Color
 from src.data.exceptions import InvalidBoard
 from src.data.piece import Piece, EmptySpot, King
 from src.data.position import Position
-from src.data.step import Step
+from src.data.step import Step, Steps
 
 
 class Board:
@@ -59,6 +59,10 @@ class Board:
     def pieces(self, color: Color) -> list[Position]:
         return [Position(row, col) for row in range(8) for col in range(8) if self._board[row][col].color == color]
 
+    def king_pieces(self, color: Color) -> list[Position]:
+        return [Position(row, col) for row in range(8) for col in range(8)
+                if self._board[row][col].color == color and self._board[row][col].symbol.is_king]
+
     def has_piece(self, color: Color) -> bool:
         return any(self._board[row][col].color == color for row in range(8) for col in range(8))
 
@@ -98,13 +102,16 @@ class Board:
     def copy(self):
         return copy.deepcopy(self)
 
-    def move_piece(self, step: Step):
-        self[step.to_pos] = self[step.from_pos]
-        self[step.from_pos] = EmptySpot()
-        if step.eaten_piece:
-            self[step.eaten_piece] = EmptySpot()
+    def move_piece(self, steps: Step | Steps):
+        if isinstance(steps, Step):
+            steps = Steps([steps])
+        for step in steps:
+            self[step.to_pos] = self[step.from_pos]
+            self[step.from_pos] = EmptySpot()
+            if step.eaten_piece:
+                self[step.eaten_piece] = EmptySpot()
 
-        is_pawn = self[step.to_pos].symbol in [PieceSymbol.WHITE_PAWN, PieceSymbol.BLACK_PAWN]
-        need_promotion = step.to_pos.row == 0 if self[step.to_pos].color is Color.WHITE else step.to_pos.row == 7
-        if is_pawn and need_promotion:
-            self[step.to_pos] = King(self[step.to_pos].color)
+            is_pawn = self[step.to_pos].symbol in [PieceSymbol.WHITE_PAWN, PieceSymbol.BLACK_PAWN]
+            need_promotion = step.to_pos.row == 0 if self[step.to_pos].color is Color.WHITE else step.to_pos.row == 7
+            if is_pawn and need_promotion:
+                self[step.to_pos] = King(self[step.to_pos].color)

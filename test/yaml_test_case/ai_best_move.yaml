@@ -1,0 +1,30 @@
+game_ai:
+    board:
+        - [ "_", "_", "_", "_", "_", "_", "_", "_" ]
+        - [ "_", "W", "_", "B", "_", "_", "_", "_" ]
+        - [ "_", "_", "_", "_", "_", "_", "B", "_" ]
+        - [ "_", "_", "_", "B", "_", "_", "_", "_" ]
+        - [ "_", "_", "_", "_", "_", "_", "_", "_" ]
+        - [ "_", "W", "_", "_", "_", "_", "_", "_" ]
+        - [ "W", "_", "_", "_", "_", "_", "_", "_" ]
+        - [ "_", "W", "_", "_", "_", "_", "_", "WK" ]
+
+    current_turn: white
+    ai_color: white
+actions:
+
+    -   type: move_ai
+
+    -   type: check_position
+        positions:
+            -   position: [ 4,4 ]
+                piece: "_"
+            -   position: [ 2,2 ]
+                piece: "_"
+            -   position: [ 0,4 ]
+                piece: "_"
+            -   position: [ 3,7 ]
+                piece: "WK"
+
+    -   type: check_state
+        state: "white win"

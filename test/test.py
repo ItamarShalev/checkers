@@ -10,13 +10,25 @@ from src.data.piece import Piece
 from src.data.position import Position
 from src.data.step import Step, Steps
 from src.data import exceptions
-from src.game import Game
+from src.game import Game, GameAI
+
 
 class Action(ABC):
 
     @abstractmethod
     def __call__(self, game: Game):
         pass
+
+
+class MoveAI(Action):
+
+    def __init__(self, depth: int | None = None):
+        self.depth = depth
+
+    def __call__(self, game: Game):
+        if not isinstance(game, GameAI):
+            raise ValueError("The game is not an AI game.")
+        game.move_ai(self.depth)
 
 
 class Move(Action):
@@ -87,13 +99,14 @@ def load_test_case(yaml_file: Path):
 
 
 def to_upper(value: str) -> str:
-    return value.replace("_", " ").title().replace(" ", "")
+    return value.replace("_", " ").title().replace(" ", "").replace("Ai", "AI")
 
 
 @pytest.mark.parametrize("yaml_file", all_yaml_files(), ids=[file.name for file in all_yaml_files()])
 def test_yaml_test_case(yaml_file: Path):
     data = load_test_case(yaml_file)
-    game = Game(**data.get("game", {}))
+    game: Game = GameAI(**data["game_ai"]) if "game_ai" in data else Game(**data.get("game", {}))
+
     for index, action_data in enumerate(data.get("actions", [])):
         print(f"Start action: {index + 1}")
         print("Action data:", action_data)

@@ -8,9 +8,9 @@ from src.data.step import Steps
 class Piece(ABC):
 
     def __init__(self, symbol: PieceSymbol):
-        self.symbol = symbol
-        self.color = symbol.color
-        self.is_king = symbol.is_king
+        self.symbol: PieceSymbol = symbol
+        self.color: Color = symbol.color
+        self.is_king: bool = symbol.is_king
 
     @staticmethod
     def from_symbol(symbol: str | PieceSymbol):

@@ -1,3 +1,5 @@
 pytest
 pylint
 pyyaml
+types-PyYAML
+mypy

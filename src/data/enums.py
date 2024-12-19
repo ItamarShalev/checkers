@@ -56,7 +56,7 @@ class PieceSymbol(Enum):
         raise ValueError(f"Invalid piece value or key: {value}")
 
     def __str__(self):
-        return self.value
+        return self.name
 
     def __repr__(self):
         return str(self)
